@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
+
+
+
+    <entity entity-name="Party" package="moqui.party">
+        <field name="partyId" type="id" is-pk="true"/>
+        <field name="partyTypeEnumId" type="id"/>
+        <field name="createdDate" type="date-time"/>
+        <relationship type="one" title="PartyType" related="moqui.basic.Enumeration">
+            <key-map field-name="partyTypeEnumId" related="enumId"/>
+        </relationship>
+        <seed-data>
+            <moqui.basic.EnumerationType description="Party Type" enumTypeId="PartyType"/>
+            <moqui.basic.Enumeration description="Party Type" enumId="PERSON" enumTypeId="PartyType"/>
+            <moqui.basic.Enumeration description="Party Type" enumId="PARTY_GROUP" enumTypeId="PartyType"/>
+        </seed-data>
+    </entity>
+
+
+    <entity entity-name="Person" package="moqui.party" use="nontransactional" cache="true">
+        <field name="partyId" type="id" is-pk="true"/>
+        <field name="firstName" type="text-medium"/>
+        <field name="lastName" type="text-medium"/>
+        <field name="dateOfBirth" type="date"/>
+        <relationship type="one" related="moqui.party.Party" mandatory="true">
+            <key-map field-name="partyId"/> </relationship>
+    </entity>
+
+    <entity entity-name="PartyGroup" package="moqui.party" cache="true">
+        <field name="partyId" type="id" is-pk="true"/>
+        <field name="groupName" type="text-medium"/>
+        <field name="description" type="text-medium"/>
+        <relationship type="one" related="moqui.party.Party" mandatory="true">
+            <key-map field-name="partyId"/></relationship>
+    </entity>
+
+    <entity entity-name="ContactMech" package="moqui.party" cache="true">
+        <field name="contactMechId" type="id" is-pk="true"/>
+        <field name="contactMechTypeEnumId" type="id"/>
+        <field name="infoString" type="text-medium"/>
+        <field name="createdDate" type="date-time"/>
+        <relationship type="one" title="ContactMechType" related="moqui.basic.Enumeration">
+            <key-map field-name="contactMechTypeEnumId" related="enumId"/>
+        </relationship>
+        <seed-data>
+            <moqui.basic.EnumerationType description="Contact Mech Type" enumTypeId="ContactMechType"/>
+            <moqui.basic.Enumeration description="Email" enumId="EMAIL" enumTypeId="ContactMechType"/>
+            <moqui.basic.Enumeration description="Phone" enumId="TELECOM_NUMBER" enumTypeId="ContactMechType"/>
+        </seed-data>
+
+    </entity>
+
+    <entity entity-name="PartyContactMech" package="moqui.party" cache="true">
+        <field name="partyId" type="id" is-pk="true"/>
+        <field name="contactMechId" type="id" is-pk="true"/>
+        <field name="fromDate" type="date-time" is-pk="true"/>
+        <field name="thruDate" type="date-time"/>
+        <relationship type="one" title="Party" related="moqui.party.Party">
+            <key-map field-name="partyId"/>
+        </relationship>
+        <relationship type="one" title="ContactMech" related="moqui.party.ContactMech">
+            <key-map field-name="contactMechId"/>
+        </relationship>
+    </entity>
+
+</entities>
