@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-facade-xml >
+
+    <moqui.party.Party partyId="102"
+                       partyTypeEnumId="PERSON"
+                       createdDate="2023-01-01 12:00:00"/>
+
+    <moqui.party.Person partyId="102"
+                        firstName="utkarsh"
+                        lastName="barade"
+                        dateOfBirth="2002-10-13"/>
+
+    <moqui.party.Party partyId="103"
+                       partyTypeEnumId="PERSON"
+                       createdDate="2023-01-01 12:00:00"/>
+
+    <moqui.party.Person partyId="103"
+                        firstName="hotwax"
+                        lastName="System"
+                        dateOfBirth="2001-01-01"/>
+
+    <moqui.party.Party partyId="106"
+                       partyTypeEnumId="PERSON"
+                       createdDate="2023-01-01 12:00:00"/>
+    <moqui.party.Person partyId="106"
+                        firstName="Dev"
+                        lastName="Jone"
+                        dateOfBirth="2002-10-13"/>
+
+    <moqui.party.Party partyId="200"
+                       partyTypeEnumId="PARTY_GROUP"
+                       createdDate="2023-01-01 12:00:00"/>
+
+    <moqui.party.PartyGroup partyId="200"
+                            groupName="Acme Corp"
+                            description="Software Company"/>
+
+    <moqui.party.ContactMech contactMechId="CM1"
+                             contactMechTypeEnumId="EMAIL"
+                             infoString="john@doe.com"/>
+
+    <moqui.party.PartyContactMech partyId="102"
+                                  contactMechId="CM1"
+                                  fromDate="2023-01-01 12:00:00"/>
+
+</entity-facade-xml>
