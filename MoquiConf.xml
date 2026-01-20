@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moqui-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/moqui-conf-3.xsd">
+
+
+    <screen-facade>
+        <screen location="component://webroot/screen/webroot/apps.xml">
+
+
+            <subscreens-item
+                    name="partyScreen"
+                    menu-title="Party Screen"
+                    menu-index="90"
+                    location="component://party/screen/PartyScreen.xml"/>
+
+
+
+            <subscreens-item
+                    name="personScreen"
+                    menu-title="Person Screen"
+                    menu-index="90"
+                    location="component://party/screen/CreatePersonScreen.xml"/>
+
+            <subscreens-item name="PartyGroupScreen"
+                             menu-title=" Party Group Screen"
+                             menu-index="90"
+                             location="component://party/screen/CreatePartyGroupScreen.xml"/>
+
+
+        </screen>
+    </screen-facade>
+
+
+
+
+</moqui-conf>
