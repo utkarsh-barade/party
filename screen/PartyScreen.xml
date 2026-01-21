@@ -85,12 +85,6 @@
     </transition>
 
 
-    <transition name="FindParty">
-        <service-call name="GetPartyServices.find#Party" />
-
-        <default-response url="."/>
-    </transition>
-
     <actions>
         <entity-find entity-name="moqui.party.Party" list="partyList"/>
         <entity-find entity-name="moqui.party.Person" list="personList"/>
@@ -110,10 +104,11 @@
                 <auto-fields-service service-name="CreateParty.create#Party" field-type="edit"/>
 
                 <field name="createdDate">
-                    <default-field>
+                    <default-field >
                         <display text="${ec.user.nowTimestamp}"/>
                     </default-field>
                 </field>
+
                 <field name="submitButton">
                     <default-field title="Create"><submit/></default-field>
                 </field>
@@ -161,7 +156,7 @@
         </container>
 
         <form-list name="PartyList" list="partyList" >
-            <auto-fields-entity entity-name="moqui.party.Party" field-type="display"/>
+            <auto-fields-entity entity-name="moqui.party.Party" field-type="display" />
 <!--            <field name="partyId">-->
 <!--                <header-field title="Party ID"/>-->
 <!--                <default-field><display/></default-field>-->
@@ -171,13 +166,13 @@
 <!--                <header-field title="Type"/>-->
 <!--                <default-field><display/></default-field>-->
 <!--            </field>-->
-<!--            <field name="createdDate">-->
-<!--                <header-field title="Created Date"/>-->
-<!--                <default-field>-->
-<!--&lt;!&ndash;                    YAHA PER DATE TIME EK SATH  DIKH RAHE THE AUR MUJHE SRIF DATE CHAIYE &ndash;&gt;-->
-<!--                    <display text="${ec.user.nowTimestamp.format('yyy-MM-dd')}"/>-->
-<!--                </default-field>-->
-<!--            </field>-->
+            <field name="createdDate">
+                <header-field title="Created Date"/>
+                <default-field>
+<!--                    YAHA PER DATE TIME EK SATH  DIKH RAHE THE AUR MUJHE SRIF DATE CHAIYE -->
+                    <display text="${ec.user.nowTimestamp.format('yyy-MM-dd')}"/>
+                </default-field>
+            </field>
         </form-list>
 
 
