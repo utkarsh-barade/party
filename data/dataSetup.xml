@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <entity-facade-xml type="seed">
     <moqui.security.ArtifactGroup artifactGroupId="TUT_APP"
-                                  description="Tutorial App (via root screen)"/>
+                                  description="PARTY App (via root screen)"/>
     <moqui.security.ArtifactGroupMember artifactGroupId="TUT_APP"
                                         artifactName="component://party/screen/PartyScreen.xml"
                                         artifactTypeEnumId="AT_XML_SCREEN" inheritAuthz="Y"/>
