@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd"
+        require-authentication="true">
+
+<!--    <title>Party Screen</title>-->
+
+    <transition name="createParty">
+
+<!--                    1. condition laga ne ke do tarike h ager chahoto action ke under if else
+                         2. conditional-response use kar ne ke
+
+                          Id auto generate kar ne ke bad partyTypeEnumId
+                         ki value ke hisaab se alag alag screen pe redirect kar ne ke liyee
+                         me ne conditional-response use kiya he
+
+                         partyid kese work kara he
+                         1.create service call me out map me partyid he jise me ne out map me liya he
+                            2. fir me ne field set kar diya he partyId variable me
+                            3.response me parameter map me partyId pass kar diya he
+                            4.aur service screen pe use kar liya he display kar ne ke liyee
+                            5.parameter name="partyId" call kiya aur ek field me display kar diya he
+
+-->
+        <actions>
+            <service-call name="CreateParty.create#Party" in-map="context" out-map="party"/>
+             <set field="partyId" value="${party.partyId}"/>
+
+<!--            <if condition="partyTypeEnumId=='PERSON'">-->
+<!--                <set field="partytype" value="/qapps/personScreen" />-->
+<!--                <else-if condition="partyTypeEnumId=='PARTY_GROUP'">-->
+<!--                    <set field="partytype" value="/qapps/PartyGroupScreen" />-->
+<!--                </else-if>-->
+<!--                <else>-->
+<!--                    <set field="partytype" value="." />-->
+<!--                </else>-->
+
+<!--            </if>-->
+        </actions>
+        <conditional-response url="/qapps/personScreen" parameter-map="[partyId:partyId]" >
+            <condition>
+                <compare field="partyTypeEnumId" value="PERSON" />
+            </condition>
+        </conditional-response>
+
+        <conditional-response url="/qapps/PartyGroupScreen" parameter-map="[partyId:partyId]" >
+            <condition>
+                <compare field="partyTypeEnumId" value="PARTY_GROUP" />
+            </condition>
+        </conditional-response>
+
+        <default-response url="."/>
+
+<!--        <default-response url="${partytype}" parameter-map="[partyId:partyId]"/>-->
+
+    </transition>
+
+    <transition name="deleteParty">
+        <actions>
+            <entity-find entity-name="moqui.party.Party" list="partyList"/>
+             <set field="partyTypeEnumId" from="partyList.find{it.partyId == partyId}.partyTypeEnumId"/>
+
+            <if condition="partyTypeEnumId=='PERSON'">
+        <service-call name="delete#moqui.party.Person"
+         in-map="context"
+        out-map="partyId"
+        />
+             <else-if condition="partyTypeEnumId=='PARTY_GROUP'">
+                 <service-call name="delete#moqui.party.PartyGroup"
+                               in-map="context"
+
+                    />
+
+             </else-if>
+         </if>
+
+
+
+        <service-call name="delete#moqui.party.Party"
+        in-map="context+[partyId:partyId]"/>
+        </actions>
+        <default-response url="."/>
+
+
+    </transition>
+
+
+    <transition name="FindParty">
+        <service-call name="GetPartyServices.find#Party" />
+
+        <default-response url="."/>
+    </transition>
+
+    <actions>
+        <entity-find entity-name="moqui.party.Party" list="partyList"/>
+        <entity-find entity-name="moqui.party.Person" list="personList"/>
+        <entity-find entity-name="moqui.party.PartyGroup" list="partyGroupList"/>
+    </actions>
+
+    <widgets>
+
+        <container-dialog id="CreatePartyDialog" button-text="Create Party">
+            <form-single name="CreateParty" transition="createParty">
+<!--                <auto-fields-entity entity-name="moqui.party.Party" field-type="edit"/>-->
+                <field name="partyId">
+                    <default-field title="Party ID">
+                        <text-line/>
+                    </default-field>
+                </field>
+                <auto-fields-service service-name="CreateParty.create#Party" field-type="edit"/>
+
+                <field name="createdDate">
+                    <default-field>
+                        <display text="${ec.user.nowTimestamp}"/>
+                    </default-field>
+                </field>
+                <field name="submitButton">
+                    <default-field title="Create"><submit/></default-field>
+                </field>
+            </form-single>
+        </container-dialog>
+
+        <container-dialog id="DeletePartyDialog" button-text="Delete Party">
+            <form-single name="DeletePartyForm" transition="deleteParty">
+
+                <field name="partyId">
+                    <default-field title="Enter Party ID">
+                        <text-line/>
+                    </default-field>
+                </field>
+<!--                <field name="partyTypeEnumId">-->
+<!--                    <default-field>-->
+
+<!--                        <drop-down>-->
+<!--                            <option key="PERSON" text="Person"/>-->
+<!--                            <option key="PARTY_GROUP" text="Party Group"/>-->
+<!--                        </drop-down>-->
+<!--                    </default-field>-->
+<!--                </field>-->
+
+                <field name="submitButton">
+                    <default-field title="Delete">
+                        <submit confirmation="Are you sure you want to delete this Party?"/>
+                    </default-field>
+                </field>
+
+            </form-single>
+        </container-dialog>
+
+   
+
+
+
+
+
+
+
+
+        <container>
+            <label text="All Party Records" type="h4"/>
+        </container>
+
+        <form-list name="PartyList" list="partyList" >
+            <auto-fields-entity entity-name="moqui.party.Party" field-type="display"/>
+<!--            <field name="partyId">-->
+<!--                <header-field title="Party ID"/>-->
+<!--                <default-field><display/></default-field>-->
+
+<!--            </field>-->
+<!--            <field name="partyTypeEnumId">-->
+<!--                <header-field title="Type"/>-->
+<!--                <default-field><display/></default-field>-->
+<!--            </field>-->
+<!--            <field name="createdDate">-->
+<!--                <header-field title="Created Date"/>-->
+<!--                <default-field>-->
+<!--&lt;!&ndash;                    YAHA PER DATE TIME EK SATH  DIKH RAHE THE AUR MUJHE SRIF DATE CHAIYE &ndash;&gt;-->
+<!--                    <display text="${ec.user.nowTimestamp.format('yyy-MM-dd')}"/>-->
+<!--                </default-field>-->
+<!--            </field>-->
+        </form-list>
+
+
+<!--     me ne ek extra list add kari me screen jo person entity ki details dikha ta he   -->
+        <container>
+            <label text="All Person Records" type="h4"/>
+        </container>
+
+        <form-list name="PersonList" list="personList">
+            <field name="partyId">
+                <header-field title="Party ID"/>
+                <default-field>
+                    <display/>
+                </default-field>
+
+            </field>
+            <field name="firstName">
+                <header-field title="First Name"/>
+                <default-field><display/></default-field>
+            </field>
+
+            <field name="lastName">
+                <header-field title="Last Name"/>
+                <default-field><display/></default-field>
+            </field>
+
+            <field name="dateOfBirth">
+                <header-field title="Date of Birth"/>
+                <default-field><display/></default-field>
+            </field>
+
+        </form-list>
+
+        <container>
+            <label text="All Party Group Records" type="h4"/>
+        </container>
+
+        <form-list name="PartyGroupList" list="partyGroupList">
+            <field name="partyId">
+                <header-field title="Party ID"/>
+                <default-field><display/></default-field>
+
+            </field>
+            <field name="groupName" >
+                <header-field title="Group Name"/>
+                <default-field><display/></default-field>
+            </field>
+
+            <field name="description">
+                <header-field title="Description"/>
+                <default-field><display/></default-field>
+            </field>
+        </form-list>
+
+
+    </widgets>
+</screen>

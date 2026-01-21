@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd"
+        require-authentication="anonymous-all">
+    <parameter name="partyId"/>
+
+    <transition name="createPerson">
+        <actions>
+            <service-call name="PersonServices.create#Person" in-map="context"/>
+        </actions>
+
+    
+            
+        <default-response url="/qapps/partyScreen"/>
+    </transition>
+    
+
+    <widgets>
+
+        <form-single name="CreatePersonForm" transition="createPerson">
+
+        <auto-fields-service service-name="PersonServices.create#Person" field-type="edit"/>
+            <field name="partyId" >
+            <default-field title="Party ID">
+                <display text="${partyId}"/>
+            </default-field>
+            </field>
+
+
+            <field name="submitButton">
+                <default-field title="Create Person">
+
+                    <submit/>
+                </default-field>
+            </field>
+        </form-single>
+    </widgets>
+    
+</screen>
