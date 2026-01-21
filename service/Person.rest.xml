@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/rest-api-3.xsd"
+          name="person" version="1.0">
+
+
+<!--ye wali api person bana ne ke liyee-->
+    <resource name="createPerson">
+            <method type="post" require-authentication="anonymous-all">
+                <service name="PersonServices.create#Person"/>
+            </method>
+        </resource>
+
+
+    <!--ye wali api partygroup bana ne ke liyee-->
+        <resource name="createPartyGroup">
+            <method type="post" require-authentication="anonymous-all">
+                <service name="PartyGroupServices.create#PartyGroup"/>
+            </method>
+        </resource>
+
+
+</resource>
