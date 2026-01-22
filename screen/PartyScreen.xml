@@ -63,7 +63,7 @@
             <if condition="partyTypeEnumId=='PERSON'">
         <service-call name="delete#moqui.party.Person"
          in-map="context"
-        out-map="partyId"
+
         />
              <else-if condition="partyTypeEnumId=='PARTY_GROUP'">
                  <service-call name="delete#moqui.party.PartyGroup"
@@ -77,7 +77,7 @@
 
 
         <service-call name="delete#moqui.party.Party"
-        in-map="context+[partyId:partyId]"/>
+        in-map="context"/>
         </actions>
         <default-response url="."/>
 
@@ -105,7 +105,8 @@
 
                 <field name="createdDate">
                     <default-field >
-                        <display text="${ec.user.nowTimestamp}"/>
+<!--                        <display text="${ec.user.nowTimestamp}"/>-->
+                        <date-time/>
                     </default-field>
                 </field>
 
@@ -166,13 +167,13 @@
 <!--                <header-field title="Type"/>-->
 <!--                <default-field><display/></default-field>-->
 <!--            </field>-->
-            <field name="createdDate">
-                <header-field title="Created Date"/>
-                <default-field>
-<!--                    YAHA PER DATE TIME EK SATH  DIKH RAHE THE AUR MUJHE SRIF DATE CHAIYE -->
-                    <display text="${ec.user.nowTimestamp.format('yyy-MM-dd')}"/>
-                </default-field>
-            </field>
+<!--            <field name="createdDate">-->
+<!--                <header-field title="Created Date"/>-->
+<!--                <default-field>-->
+<!--&lt;!&ndash;                    YAHA PER DATE TIME EK SATH  DIKH RAHE THE AUR MUJHE SRIF DATE CHAIYE &ndash;&gt;-->
+<!--                    <display text="${ec.user.nowTimestamp.format('yyy-MM-dd')}"/>-->
+<!--                </default-field>-->
+<!--            </field>-->
         </form-list>
 
 
